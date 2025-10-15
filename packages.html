@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -211,6 +212,25 @@
             color: var(--primary-color);
         }
 
+        .package-support-note {
+            text-align: center;
+            margin-top: 3rem;
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 1.8;
+            max-width: 550px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .package-support-note a {
+            color: var(--primary-color);
+            text-decoration: underline;
+            font-weight: 600;
+            transition: color 0.3s;
+        }
+        .package-support-note a:hover {
+            color: var(--text-color-light);
+        }
+
         /* --- Footer (Copied for consistency) --- */
         footer {
             background-color: #020624;
@@ -344,6 +364,10 @@
                         </div>
                     </div>
                 </div>
+                <div class="package-support-note">
+                    If you need more explanation on Animo, or you have any issue with making a payment, 
+                    <a href="#" class="dynamic-wa-link">click here to contact our Support Team</a>.
+                </div>
             </div>
         </section>
     </main>
@@ -410,7 +434,9 @@
                     const whatsappNumber = doc.data().whatsappNumber;
                     if (whatsappNumber) {
                         const waLink = `https://wa.me/${whatsappNumber}?text=Hello+I+want+to+pay+for+Registration`;
-                        document.querySelector('.dynamic-wa-link').href = waLink;
+                        document.querySelectorAll('.dynamic-wa-link').forEach(link => {
+                            link.href = waLink;
+                        });
                     }
                 }
             }).catch((error) => {
