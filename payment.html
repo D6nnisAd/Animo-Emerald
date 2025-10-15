@@ -1,0 +1,392 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment - Animo</title>
+
+    <!-- Google Fonts: Poppins -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Bootstrap 5.3.3 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
+    <!-- Font Awesome 6 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <!-- Internal CSS -->
+    <style>
+        :root {
+            --primary-color: #B8E68C; /* Light Green */
+            --bg-color: #03082E;      /* Deep Blue */
+            --text-color-light: #ffffff;
+            --card-bg-color: #0a1142;
+            --danger-color: #ffc107;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            overflow-x: hidden;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color-light);
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        main {
+            flex-grow: 1;
+        }
+
+        /* --- Navbar (Copied for consistency) --- */
+        .navbar {
+            padding: 1rem 0;
+            z-index: 1030;
+            background-color: rgba(3, 8, 46, 0.7);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(184, 230, 140, 0.1);
+        }
+        .navbar-brand img { height: 30px; }
+        .navbar-nav .nav-link { color: var(--text-color-light); font-weight: 500; margin: 0 1rem; }
+        .btn-join-us { background-color: var(--primary-color); color: var(--bg-color); font-weight: 600; padding: 0.5rem 1.5rem; border-radius: 5px; border: none; }
+        .navbar-toggler { border: 1px solid rgba(255, 255, 255, 0.2); }
+        .navbar-toggler-icon { background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(255, 255, 255, 1)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e"); }
+        @media (max-width: 991.98px) {
+            .navbar-collapse { background-color: rgba(3, 8, 46, 0.7); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); padding: 1rem; text-align: center; border-radius: 5px; margin-top: 0.5rem; }
+        }
+
+        /* --- Payment Section --- */
+        .payment-section {
+            padding: 120px 0 60px;
+        }
+
+        .payment-card {
+            background-color: var(--card-bg-color);
+            padding: 2.5rem;
+            border-radius: 15px;
+            border: 1px solid rgba(184, 230, 140, 0.2);
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        }
+        
+        .payment-card .card-title {
+            font-weight: 700;
+            text-align: center;
+        }
+        
+        .payment-card .card-subtitle {
+            font-size: 1.2rem;
+            font-weight: 600;
+            text-align: center;
+            color: var(--primary-color);
+        }
+
+        .payment-card .card-intro {
+            text-align: center;
+            color: rgba(255, 255, 255, 0.7);
+            margin-top: 0.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .alert-note {
+            background-color: rgba(255, 193, 7, 0.1);
+            border: 1px solid var(--danger-color);
+            color: var(--danger-color);
+            padding: 1rem;
+            border-radius: 5px;
+            font-size: 0.9rem;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .payment-details {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 1.5rem 0;
+            margin-bottom: 2rem;
+        }
+
+        .payment-details .detail-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+            font-size: 1rem;
+        }
+        .payment-details .detail-item:last-child { margin-bottom: 0; }
+        .payment-details .detail-item span { color: rgba(255, 255, 255, 0.7); }
+        .payment-details .detail-item strong { color: var(--text-color-light); font-weight: 600; }
+
+        .bank-info .transfer-instruction {
+            font-weight: 500;
+            text-align: center;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 1.5rem;
+        }
+        
+        .bank-info .account-line {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: var(--bg-color);
+            padding: 0.8rem 1rem;
+            border-radius: 5px;
+            margin-bottom: 1rem;
+        }
+        
+        .bank-info .account-label { font-weight: 500; }
+        .bank-info .account-value { font-weight: 600; font-size: 1.1rem; color: var(--primary-color); }
+        
+        .account-value-wrapper { display: flex; align-items: center; }
+        #copy-btn { background-color: transparent; border: 1px solid var(--primary-color); color: var(--primary-color); font-size: 0.8rem; padding: 0.2rem 0.6rem; border-radius: 3px; margin-left: 1rem; cursor: pointer; }
+
+        .timer {
+            text-align: center;
+            margin: 2rem 0;
+            font-size: 1.1rem;
+            color: rgba(255, 255, 255, 0.8);
+        }
+        .timer #countdown { font-weight: 700; color: var(--danger-color); }
+
+        .final-instruction { text-align: center; font-size: 0.9rem; color: rgba(255, 255, 255, 0.7); }
+        
+        .btn-payment-confirm { display: block; width: 100%; text-align: center; background-color: var(--primary-color); color: var(--bg-color); font-weight: 600; padding: 0.8rem 1.5rem; border: 2px solid var(--primary-color); border-radius: 5px; text-decoration: none; margin-top: 1.5rem; }
+
+        /* --- Footer (Copied for consistency) --- */
+        footer { background-color: #020624; padding: 40px 0 0; font-size: 0.9rem; }
+        .support-text {
+            text-align: center;
+            color: rgba(255, 255, 255, 0.7);
+            padding-bottom: 2rem;
+            line-height: 1.8;
+        }
+        .support-text a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 600;
+        }
+         .support-text a:hover {
+            text-decoration: underline;
+        }
+        .footer-bottom { border-top: 1px solid rgba(184, 230, 140, 0.1); padding: 1.5rem 0; text-align: center; color: rgba(255, 255, 255, 0.5); }
+        
+        /* --- Responsive Design --- */
+        @media (max-width: 991.98px) {
+            .payment-section { padding: 80px 0 40px; }
+            .payment-card { padding: 2rem; }
+        }
+
+        @media (max-width: 576px) {
+            .payment-card {
+                padding: 1.5rem;
+            }
+            .payment-card .card-title {
+                font-size: 1.8rem;
+            }
+            .payment-card .card-subtitle {
+                font-size: 1.1rem;
+            }
+            .payment-details .detail-item,
+            .bank-info .account-line {
+                font-size: 0.9rem;
+            }
+            .bank-info .account-value {
+                font-size: 1rem;
+            }
+            .timer {
+                font-size: 1rem;
+            }
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <header>
+        <nav class="navbar navbar-expand-lg fixed-top">
+            <div class="container">
+                <a class="navbar-brand" href="index.html">
+                    <img src="/assets/logo.svg" alt="Animo Logo">
+                </a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        <section class="payment-section">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-lg-6 col-md-9">
+                        <div class="payment-card">
+                            <h2 class="card-title">Payment Gateway</h2>
+                            <h3 class="card-subtitle">Amino Payment</h3>
+                            <p class="card-intro">Complete the one-time payment fee to begin thriving on Animo</p>
+
+                            <div class="alert-note">
+                                <strong>Note:</strong> DO NOT PAY WITH OPAY (Paycom). It is not accepted on Animo. Please use any other bank or POS to pay.
+                            </div>
+
+                            <div class="payment-details">
+                                <div class="detail-item">
+                                    <span>Package:</span>
+                                    <strong id="package-name">Loading...</strong>
+                                </div>
+                                <div class="detail-item">
+                                    <span>Amount to Pay:</span>
+                                    <strong id="package-amount">Loading...</strong>
+                                </div>
+                                <div class="detail-item">
+                                    <span>Sender Email:</span>
+                                    <strong id="sender-email">Loading...</strong>
+                                </div>
+                            </div>
+
+                            <div class="bank-info">
+                                <p class="transfer-instruction">Transfer to the account below</p>
+                                <div class="account-line">
+                                    <span class="account-label">Account Number</span>
+                                    <div class="account-value-wrapper">
+                                        <span class="account-value" id="account-number">...</span>
+                                        <button id="copy-btn"><i class="far fa-copy"></i> Copy</button>
+                                    </div>
+                                </div>
+                                <div class="account-line">
+                                    <span class="account-label">Bank</span>
+                                    <span class="account-value" id="bank-name">...</span>
+                                </div>
+                                <div class="account-line">
+                                    <span class="account-label">Account Name</span>
+                                    <span class="account-value" id="account-name">...</span>
+                                </div>
+                            </div>
+
+                            <div class="timer">Account will expire in <span id="countdown">29:59</span></div>
+
+                            <p class="final-instruction">After making payment, please contact support with your payment receipt.</p>
+
+                            <a href="#" class="btn btn-payment-confirm dynamic-wa-link">I have made payment</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+             <div class="support-text">
+                If you need more explanation on Animo, or you have any issue with making a payment, <a href="#" class="dynamic-wa-link">click here to contact our Support Team</a>.
+            </div>
+            <div class="footer-bottom">
+                &copy; 2025 Animo. All Rights Reserved.
+            </div>
+        </div>
+    </footer>
+    
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+
+    <!-- Internal JS -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- Static Content Setup ---
+            const userEmail = sessionStorage.getItem('userEmail');
+            document.getElementById('sender-email').textContent = userEmail || 'Not Provided';
+
+            const urlParams = new URLSearchParams(window.location.search);
+            const plan = urlParams.get('plan');
+
+            if (plan === 'starter') {
+                document.getElementById('package-name').textContent = 'Starter plan';
+                document.getElementById('package-amount').textContent = '₦12,000';
+            } else {
+                document.getElementById('package-name').textContent = 'N/A';
+                document.getElementById('package-amount').textContent = 'N/A';
+            }
+
+            // --- Firebase Dynamic Content ---
+            // IMPORTANT: Replace with your Firebase project's configuration
+           const firebaseConfig = {
+    apiKey: "AIzaSyDogB8ViVjajhdYDbdLa8ggky4lalgwgkE",
+    authDomain: "animo-website.firebaseapp.com",
+    databaseURL: "https://animo-website-default-rtdb.firebaseio.com",
+    projectId: "animo-website",
+    storageBucket: "animo-website.firebasestorage.app",
+    messagingSenderId: "249453136869",
+    appId: "1:249453136869:web:d7009c4b5a261f13b73d0c"
+  };
+
+            firebase.initializeApp(firebaseConfig);
+            const db = firebase.firestore();
+            const settingsRef = db.collection('settings').doc('payment');
+
+            settingsRef.get().then((doc) => {
+                if (doc.exists) {
+                    const data = doc.data();
+                    
+                    // Populate bank details
+                    document.getElementById('account-number').textContent = data.accountNumber || 'N/A';
+                    document.getElementById('bank-name').textContent = data.bankName || 'N/A';
+                    document.getElementById('account-name').textContent = data.accountName || 'N/A';
+
+                    // Update WhatsApp links
+                    if (data.whatsappNumber) {
+                        const waLink = `https://wa.me/${data.whatsappNumber}?text=Hello+I+want+to+pay+for+Registration`;
+                        document.querySelectorAll('.dynamic-wa-link').forEach(link => {
+                            link.href = waLink;
+                        });
+                    }
+                } else {
+                    console.log("No settings document found in Firebase.");
+                }
+            }).catch((error) => {
+                console.error("Error getting settings:", error);
+            });
+
+
+            // --- Page Interactions ---
+            const copyBtn = document.getElementById('copy-btn');
+            copyBtn.addEventListener('click', () => {
+                const accountNumber = document.getElementById('account-number').textContent;
+                navigator.clipboard.writeText(accountNumber).then(() => {
+                    copyBtn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+                    setTimeout(() => {
+                        copyBtn.innerHTML = '<i class="far fa-copy"></i> Copy';
+                    }, 2000);
+                }).catch(err => {
+                    console.error('Failed to copy text: ', err);
+                });
+            });
+
+            // Countdown timer
+            const countdownEl = document.getElementById('countdown');
+            let timeInSeconds = 30 * 60; // 30 minutes
+            const timerInterval = setInterval(() => {
+                const minutes = Math.floor(timeInSeconds / 60);
+                let seconds = timeInSeconds % 60;
+                seconds = seconds < 10 ? '0' + seconds : seconds;
+                
+                countdownEl.textContent = `${minutes}:${seconds}`;
+                
+                if (timeInSeconds <= 0) {
+                    clearInterval(timerInterval);
+                    countdownEl.parentElement.innerHTML = 'Account details have <strong style="color: #dc3545;">expired</strong>.';
+                } else {
+                    timeInSeconds--;
+                }
+            }, 1000);
+        });
+    </script>
+</body>
+</html>
