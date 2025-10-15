@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Choose Your Package - FortuneX</title>
+    <title>Choose Your Package - Animo</title>
 
     <!-- Favicon -->
     <link rel="apple-touch-icon" sizes="180x180" href="/assets/favicon/apple-touch-icon.png">
@@ -14,7 +14,7 @@
 
     <!-- Google Fonts: Poppins -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic" crossorigin>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 
     <!-- Bootstrap 5.3.3 CSS -->
@@ -26,10 +26,10 @@
     <!-- Internal CSS -->
     <style>
         :root {
-            --primary-color: #F2EA99; /* Light Gold */
-            --bg-color: #470001;      /* Deep Red */
+            --primary-color: #B8E68C; /* Light Green */
+            --bg-color: #03082E;      /* Deep Blue */
             --text-color-light: #ffffff;
-            --card-bg-color: #5D0001;
+            --card-bg-color: #0a1142;
         }
 
         html {
@@ -82,14 +82,14 @@
             transition: background-color 0.3s ease-in-out, border-bottom 0.3s ease-in-out;
             padding: 1rem 0;
             z-index: 1030;
-            background-color: rgba(71, 0, 1, 0.7);
+            background-color: rgba(3, 8, 46, 0.7);
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
-            border-bottom: 1px solid rgba(242, 234, 153, 0.1);
+            border-bottom: 1px solid rgba(184, 230, 140, 0.1);
         }
 
         .navbar-brand img {
-            height: 15px;
+            height: 30px;
         }
 
         .navbar-nav .nav-link {
@@ -109,15 +109,14 @@
             color: var(--bg-color);
             font-weight: 600;
             padding: 0.5rem 1.5rem;
-            border-radius: 50px;
+            border-radius: 5px;
             border: none;
             transition: all 0.3s;
         }
 
         .btn-join-us:hover {
-            background-color: #fff8c5;
+            background-color: var(--text-color-light);
             color: var(--bg-color);
-            transform: translateY(-2px);
         }
         
         .navbar-toggler {
@@ -130,7 +129,7 @@
         
         @media (max-width: 991.98px) {
             .navbar-collapse {
-                background-color: rgba(71, 0, 1, 0.7);
+                background-color: rgba(3, 8, 46, 0.7);
                 backdrop-filter: blur(10px);
                 -webkit-backdrop-filter: blur(10px);
                 padding: 1rem;
@@ -141,30 +140,21 @@
         }
         
         /* --- Packages Section --- */
-        .package-card-link {
-            text-decoration: none;
-            color: inherit;
-            display: block;
-            height: 100%;
-        }
-        .package-card-link:hover {
-            color: inherit;
-        }
-
         .package-card {
             background-color: var(--card-bg-color);
             padding: 2.5rem;
             border-radius: 15px;
-            border: 1px solid rgba(242, 234, 153, 0.2);
+            border: 1px solid rgba(184, 230, 140, 0.2);
             text-align: center;
             box-shadow: 0 10px 40px rgba(0,0,0,0.2);
             display: flex;
             flex-direction: column;
             height: 100%;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative; /* Required for stretched-link to work */
         }
         
-        .package-card-link:hover .package-card {
+        .package-card:hover {
             transform: translateY(-10px);
             box-shadow: 0 15px 50px rgba(0,0,0,0.4);
         }
@@ -207,40 +197,23 @@
         .btn-select-plan {
             background-color: var(--primary-color);
             color: var(--bg-color);
-            font-weight: 700; /* Bolder to match hero button */
+            font-weight: 600;
             padding: 0.8rem 1.5rem;
-            border: none;
-            border-radius: 50px;
+            border: 2px solid var(--primary-color);
+            border-radius: 5px;
             transition: all 0.3s;
             width: 100%;
             text-transform: uppercase;
         }
 
-        .package-card-link:hover .btn-select-plan {
-            background-color: #fff8c5;
-            color: var(--bg-color);
-        }
-
-        /* --- Support Text Below Package --- */
-        .support-text-below-package {
-            color: rgba(255, 255, 255, 0.8);
-            line-height: 1.8;
-            font-size: 1rem;
-        }
-        .support-text-below-package a {
+        .btn-select-plan:hover {
+            background-color: transparent;
             color: var(--primary-color);
-            text-decoration: underline;
-            font-weight: 600;
-            transition: color 0.3s ease;
         }
-        .support-text-below-package a:hover {
-            color: #fff8c5; /* Slightly lighter gold for hover */
-        }
-
 
         /* --- Footer (Copied for consistency) --- */
         footer {
-            background-color: #2a0000;
+            background-color: #020624;
             padding: 80px 0 0;
             font-size: 0.9rem;
         }
@@ -284,7 +257,7 @@
         }
 
         .footer-bottom {
-            border-top: 1px solid rgba(242, 234, 153, 0.1);
+            border-top: 1px solid rgba(184, 230, 140, 0.1);
             padding: 1.5rem 0;
             margin-top: 4rem;
             text-align: center;
@@ -316,7 +289,7 @@
         <nav class="navbar navbar-expand-lg fixed-top">
             <div class="container">
                 <a class="navbar-brand" href="index.html">
-                    <img src="/assets/logo.svg" alt="FortuneX Logo">
+                    <img src="/assets/logo.svg" alt="Animo Logo">
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -350,38 +323,27 @@
         <section id="packages-selection">
             <div class="container">
                 <div class="section-heading">
-                    <h2>Your All-Access Pass to <span>Limitless Growth</span></h2>
-                    <p>Start your journey with our all-inclusive package, designed to provide everything you need to thrive in the FortuneX ecosystem.</p>
+                    <h2>Choose Your Path to <span>Prosperity</span></h2>
+                    <p>Start your journey with our all-inclusive package, designed to provide everything you need to thrive in the Animo ecosystem.</p>
                 </div>
                 <div class="row justify-content-center">
                     <!-- Starter Pack -->
                     <div class="col-lg-5 col-md-8">
-                        <a href="payment.html?plan=starter" class="package-card-link">
-                            <div class="package-card">
-                                <h3>Starter Pack</h3>
-                                <div class="price"><sup>₦</sup>12,000</div>
-                                <p>One-time activation fee for full access.</p>
-                                <ul class="features-list">
-                                    <li><i class="fas fa-check-circle"></i> Full Access to Engagement Rewards</li>
-                                    <li><i class="fas fa-check-circle"></i> Entry into FortuneX Partner Network</li>
-                                    <li><i class="fas fa-check-circle"></i> Access to All Digital Skill Courses</li>
-                                    <li><i class="fas fa-check-circle"></i> Eligibility for Digital Asset Opportunities</li>
-                                    <li><i class="fas fa-check-circle"></i> Unlimited Earning Potential</li>
-                                </ul>
-                                <div class="btn btn-select-plan">Select Plan</div>
-                            </div>
-                        </a>
+                        <div class="package-card">
+                            <h3>Starter Pack</h3>
+                            <div class="price"><sup>₦</sup>12,000</div>
+                            <p>One-time activation fee for full access.</p>
+                            <ul class="features-list">
+                                <li><i class="fas fa-check-circle"></i> Full Access to Walk-and-Earn System</li>
+                                <li><i class="fas fa-check-circle"></i> Entry into Animo Affiliate Network</li>
+                                <li><i class="fas fa-check-circle"></i> Access to All Premium Skill Courses</li>
+                                <li><i class="fas fa-check-circle"></i> Eligibility for Real Estate Opportunities</li>
+                                <li><i class="fas fa-check-circle"></i> Unlimited Earning Potential</li>
+                            </ul>
+                            <a href="payment.html?plan=starter" class="btn btn-select-plan stretched-link">Select Plan</a>
+                        </div>
                     </div>
                 </div>
-
-                <!-- Support Text Below -->
-                <div class="support-text-below-package text-center mt-5">
-                    <p>
-                        If you need more explanation on FortuneX, or you have any issue with making a payment, 
-                        <a href="#" class="dynamic-wa-link">click here to contact our Support Team</a>.
-                    </p>
-                </div>
-
             </div>
         </section>
     </main>
@@ -391,8 +353,8 @@
         <div class="container">
             <div class="row gy-4">
                 <div class="col-lg-4">
-                    <img src="/assets/logo.svg" alt="FortuneX Logo" class="footer-logo">
-                    <p>FortuneX is your all-access pass to limitless growth, freedom, and digital dominance. The Future is Yours to Command.</p>
+                    <img src="/assets/logo.svg" alt="Animo Logo" class="footer-logo">
+                    <p>Animo is your pathway to prosperity, where innovation meets opportunity and every action moves you closer to abundance.</p>
                 </div>
                 <div class="col-lg-2 offset-lg-2">
                     <h5>Quick Links</h5>
@@ -406,13 +368,13 @@
                 <div class="col-lg-4">
                     <h5>Support</h5>
                      <p>
-                        If you need more explanation on FortuneX, or you have any issue with making a payment, 
+                        If you need more explanation on Animo, or you have any issue with making a payment, 
                         <a href="#" class="dynamic-wa-link">click here to contact our Support Team</a>.
                     </p>
                 </div>
             </div>
             <div class="footer-bottom">
-                &copy; 2025 FortuneX. All Rights Reserved.
+                &copy; 2025 Animo. All Rights Reserved.
             </div>
         </div>
     </footer>
@@ -448,9 +410,7 @@
                     const whatsappNumber = doc.data().whatsappNumber;
                     if (whatsappNumber) {
                         const waLink = `https://wa.me/${whatsappNumber}?text=Hello+I+want+to+pay+for+Registration`;
-                        document.querySelectorAll('.dynamic-wa-link').forEach(link => {
-                            link.href = waLink;
-                        });
+                        document.querySelector('.dynamic-wa-link').href = waLink;
                     }
                 }
             }).catch((error) => {
