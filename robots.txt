@@ -3,9 +3,11 @@ Disallow: /admin.html
 Disallow: /payment.html
 
 User-agent: AdsBot-Google
-Disallow: /
-Allow: /index.html
-Allow: /assets/
+# Allow the ad crawler to see the public user journey
+Allow: /
+# But still protect sensitive pages
+Disallow: /admin.html
+Disallow: /payment.html
 
 User-agent: Googlebot
 Allow: /
