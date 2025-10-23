@@ -2,4 +2,14 @@ User-agent: *
 Disallow: /admin.html
 Disallow: /payment.html
 
+User-agent: AdsBot-Google
+Disallow: /
+Allow: /index.html
+Allow: /assets/
+
+User-agent: Googlebot
+Allow: /
+Disallow: /admin.html
+Disallow: /payment.html
+
 Sitemap: https://animoapp.net.ng/sitemap.xml
