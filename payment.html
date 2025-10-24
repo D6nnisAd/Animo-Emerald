@@ -324,9 +324,12 @@
             const urlParams = new URLSearchParams(window.location.search);
             const plan = urlParams.get('plan');
 
-            if (plan === 'starter') {
-                document.getElementById('package-name').textContent = 'Starter plan';
-                document.getElementById('package-amount').textContent = '₦12,000';
+            if (plan === '6months') {
+                document.getElementById('package-name').textContent = '6-Month Plan';
+                document.getElementById('package-amount').textContent = '₦10,000';
+            } else if (plan === '1year') {
+                document.getElementById('package-name').textContent = '1-Year Plan';
+                document.getElementById('package-amount').textContent = '₦15,000';
             } else {
                 document.getElementById('package-name').textContent = 'N/A';
                 document.getElementById('package-amount').textContent = 'N/A';

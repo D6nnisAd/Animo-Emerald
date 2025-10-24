@@ -339,6 +339,34 @@
             border: 1px solid rgba(184, 230, 140, 0.2);
             text-align: center;
             box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            position: relative; /* For the popular badge */
+            overflow: hidden; /* For the popular badge */
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .package-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .package-card.popular {
+            border-color: var(--primary-color);
+            box-shadow: 0 10px 50px rgba(184, 230, 140, 0.15);
+        }
+
+        .package-card.popular::before {
+            content: 'BEST VALUE';
+            position: absolute;
+            top: 25px;
+            right: -35px;
+            background-color: var(--primary-color);
+            color: var(--bg-color);
+            padding: 8px 35px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            transform: rotate(45deg);
+            z-index: 1;
         }
 
         .package-card h3 {
@@ -363,6 +391,7 @@
             padding: 0;
             margin: 2rem 0;
             text-align: left;
+            flex-grow: 1; /* Pushes button to the bottom */
         }
 
         .package-card .features-list li {
@@ -828,15 +857,32 @@
             <div class="container">
                 <div class="section-heading" data-aos="fade-up">
                     <h2>Choose Your <span>Animo Plan</span></h2>
-                    <p>Start your journey with our all-inclusive package, designed to provide everything you need to thrive in the Animo ecosystem.</p>
+                    <p>Select the plan that best fits your journey and unlock full access to the Animo ecosystem.</p>
                 </div>
-                <div class="row justify-content-center">
+                <div class="row justify-content-center gy-4">
+                    <!-- 6-Month Plan -->
                     <div class="col-lg-5 col-md-8" data-aos="fade-up" data-aos-delay="100">
-                        <div class="package-card">
-                            <h3>Starter Pack</h3>
-                            <div class="price"><sup>₦</sup>12,000</div>
-                            <p>One-time activation fee for full access.</p>
+                        <div class="package-card h-100">
+                            <h3>6-Month Plan</h3>
+                            <div class="price"><sup>₦</sup>10,000</div>
+                            <p>Full access for 6 months.</p>
                             <ul class="features-list">
+                                <li><i class="fas fa-check-circle" aria-hidden="true"></i> Full Access to Walk-and-Earn System</li>
+                                <li><i class="fas fa-check-circle" aria-hidden="true"></i> Entry into Animo Affiliate Network</li>
+                                <li><i class="fas fa-check-circle" aria-hidden="true"></i> Access to All Premium Skill Courses</li>
+                                <li><i class="fas fa-check-circle" aria-hidden="true"></i> Eligibility for Real Estate Opportunities</li>
+                                <li><i class="fas fa-check-circle" aria-hidden="true"></i> Access to Earning Opportunities</li>
+                            </ul>
+                            <a href="register.html" class="btn btn-join-us w-100 py-3">Get Started Today</a>
+                        </div>
+                    </div>
+                    <!-- 1-Year Plan (Popular) -->
+                    <div class="col-lg-5 col-md-8" data-aos="fade-up" data-aos-delay="200">
+                        <div class="package-card popular h-100">
+                            <h3>1-Year Plan</h3>
+                            <div class="price"><sup>₦</sup>15,000</div>
+                            <p>Full access for 12 months.</p>
+                             <ul class="features-list">
                                 <li><i class="fas fa-check-circle" aria-hidden="true"></i> Full Access to Walk-and-Earn System</li>
                                 <li><i class="fas fa-check-circle" aria-hidden="true"></i> Entry into Animo Affiliate Network</li>
                                 <li><i class="fas fa-check-circle" aria-hidden="true"></i> Access to All Premium Skill Courses</li>
