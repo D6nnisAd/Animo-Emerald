@@ -171,7 +171,7 @@
             flex-direction: column;
             height: 100%;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
-            position: relative; /* Required for stretched-link to work */
+            position: relative;
             overflow: hidden; /* For badge */
         }
         
@@ -419,7 +419,7 @@
                                 <li><i class="fas fa-check-circle" aria-hidden="true"></i> Eligibility for Real Estate Opportunities</li>
                                 <li><i class="fas fa-check-circle" aria-hidden="true"></i> Access to Earning Opportunities</li>
                             </ul>
-                            <a href="payment.html?plan=6months" class="btn btn-select-plan stretched-link">Select Plan</a>
+                            <button id="plan-6months" class="btn btn-select-plan">Select Plan</button>
                         </div>
                     </div>
                     <!-- 1-Year Plan -->
@@ -435,7 +435,7 @@
                                 <li><i class="fas fa-check-circle" aria-hidden="true"></i> Eligibility for Real Estate Opportunities</li>
                                 <li><i class="fas fa-check-circle" aria-hidden="true"></i> Access to Earning Opportunities</li>
                             </ul>
-                            <a href="payment.html?plan=1year" class="btn btn-select-plan stretched-link">Select Plan</a>
+                            <button id="plan-1year" class="btn btn-select-plan">Select Plan</button>
                         </div>
                     </div>
                 </div>
@@ -488,6 +488,9 @@
     <!-- Bootstrap 5.3.3 JS Bundle -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 
+    <!-- Paystack JS -->
+    <script src="https://js.paystack.co/v1/inline.js"></script>
+
     <!-- Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
@@ -495,6 +498,53 @@
     <!-- Internal JS -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
+            const paystackPublicKey = 'pk_live_79750a67874f70cbf33588ab9e9aa2764f5e6102';
+            const userEmail = sessionStorage.getItem('userEmail');
+
+            if (!userEmail) {
+                alert("It seems you haven't registered yet. Please create an account first.");
+                window.location.href = 'register.html';
+                return;
+            }
+
+            const sixMonthBtn = document.getElementById('plan-6months');
+            const oneYearBtn = document.getElementById('plan-1year');
+            let baseWhatsappUrl = '';
+
+            sixMonthBtn.addEventListener('click', () => {
+                payWithPaystack(1000000, userEmail, '6-Month Plan');
+            });
+
+            oneYearBtn.addEventListener('click', () => {
+                payWithPaystack(1500000, userEmail, '1-Year Plan');
+            });
+
+            function payWithPaystack(amount, email, planName) {
+                const handler = PaystackPop.setup({
+                    key: paystackPublicKey,
+                    email: email,
+                    amount: amount, // in kobo
+                    currency: 'NGN',
+                    ref: 'animo-' + Date.now(), // Unique reference
+                    metadata: {
+                        plan: planName,
+                    },
+                    callback: function(response) {
+                        alert('Payment successful! Your reference is ' + response.reference + '. You will now be redirected to support to complete your registration.');
+                        if (baseWhatsappUrl) {
+                           const message = `Hello, I have successfully paid for the Animo ${planName}. My transaction reference is ${response.reference}. My registration email is ${email}.`;
+                           const encodedMessage = encodeURIComponent(message);
+                           window.location.href = `${baseWhatsappUrl}?text=${encodedMessage}`;
+                        } else {
+                            alert('Could not redirect to support. Please contact support manually with your payment reference: ' + response.reference);
+                        }
+                    },
+                    onClose: function() {
+                        // User closed the popup
+                    }
+                });
+                handler.openIframe();
+            }
             // --- Firebase Dynamic Content ---
             // IMPORTANT: Replace with your Firebase project's configuration
            const firebaseConfig = {
@@ -515,9 +565,10 @@
                 if (doc.exists) {
                     const whatsappNumber = doc.data().whatsappNumber;
                     if (whatsappNumber) {
-                        const waLink = `https://wa.me/${whatsappNumber}?text=Hello,+I+want+to+pay+for+coupon+code+to+complete+my+Animo+Registration`;
+                        baseWhatsappUrl = `https://wa.me/${whatsappNumber}`;
+                        const prefilledLink = `${baseWhatsappUrl}?text=${encodeURIComponent('Hello, I have a question about making a payment for Animo.')}`;
                         document.querySelectorAll('.dynamic-wa-link').forEach(link => {
-                            link.href = waLink;
+                            link.href = prefilledLink;
                         });
                     }
                 }
