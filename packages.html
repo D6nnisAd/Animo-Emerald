@@ -509,7 +509,8 @@
 
             const sixMonthBtn = document.getElementById('plan-6months');
             const oneYearBtn = document.getElementById('plan-1year');
-            let baseWhatsappUrl = '';
+            
+            let whatsappNumber = '';
 
             sixMonthBtn.addEventListener('click', () => {
                 payWithPaystack(1000000, userEmail, '6-Month Plan');
@@ -520,42 +521,43 @@
             });
 
             function payWithPaystack(amount, email, planName) {
+                if (!whatsappNumber) {
+                    alert('The payment system is currently unavailable. Please contact support.');
+                    return;
+                }
+
                 const handler = PaystackPop.setup({
                     key: paystackPublicKey,
                     email: email,
                     amount: amount, // in kobo
                     currency: 'NGN',
-                    ref: 'animo-' + Date.now(), // Unique reference
+                    ref: 'animo-' + Date.now(),
                     metadata: {
                         plan: planName,
                     },
                     callback: function(response) {
-                        alert('Payment successful! Your reference is ' + response.reference + '. You will now be redirected to support to complete your registration.');
-                        if (baseWhatsappUrl) {
-                           const message = `Hello, I have successfully paid for the Animo ${planName}. My transaction reference is ${response.reference}. My registration email is ${email}.`;
-                           const encodedMessage = encodeURIComponent(message);
-                           window.location.href = `${baseWhatsappUrl}?text=${encodedMessage}`;
-                        } else {
-                            alert('Could not redirect to support. Please contact support manually with your payment reference: ' + response.reference);
-                        }
+                        const message = `Hello, I have successfully paid for the Animo ${planName}.\n\nMy transaction reference is: ${response.reference}\nMy email is: ${email}\n\nPlease complete my registration.`;
+                        
+                        const waRedirectLink = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
+                        window.location.href = waRedirectLink;
                     },
                     onClose: function() {
-                        // User closed the popup
+                        alert('Payment was cancelled.');
                     }
                 });
                 handler.openIframe();
             }
+
             // --- Firebase Dynamic Content ---
-            // IMPORTANT: Replace with your Firebase project's configuration
-           const firebaseConfig = {
-    apiKey: "AIzaSyDogB8ViVjajhdYDbdLa8ggky4lalgwgkE",
-    authDomain: "animo-website.firebaseapp.com",
-    databaseURL: "https://animo-website-default-rtdb.firebaseio.com",
-    projectId: "animo-website",
-    storageBucket: "animo-website.firebasestorage.app",
-    messagingSenderId: "249453136869",
-    appId: "1:249453136869:web:d7009c4b5a261f13b73d0c"
-  };
+            const firebaseConfig = {
+                apiKey: "AIzaSyDogB8ViVjajhdYDbdLa8ggky4lalgwgkE",
+                authDomain: "animo-website.firebaseapp.com",
+                databaseURL: "https://animo-website-default-rtdb.firebaseio.com",
+                projectId: "animo-website",
+                storageBucket: "animo-website.firebasestorage.app",
+                messagingSenderId: "249453136869",
+                appId: "1:249453136869:web:d7009c4b5a261f13b73d0c"
+            };
 
             firebase.initializeApp(firebaseConfig);
             const db = firebase.firestore();
@@ -563,14 +565,18 @@
 
             settingsRef.get().then((doc) => {
                 if (doc.exists) {
-                    const whatsappNumber = doc.data().whatsappNumber;
+                    const data = doc.data();
+                    whatsappNumber = data.whatsappNumber;
+
                     if (whatsappNumber) {
-                        baseWhatsappUrl = `https://wa.me/${whatsappNumber}`;
+                        const baseWhatsappUrl = `https://wa.me/${whatsappNumber}`;
                         const prefilledLink = `${baseWhatsappUrl}?text=${encodeURIComponent('Hello, I have a question about making a payment for Animo.')}`;
                         document.querySelectorAll('.dynamic-wa-link').forEach(link => {
                             link.href = prefilledLink;
                         });
                     }
+                } else {
+                    console.error("Payment settings document not found in Firebase.");
                 }
             }).catch((error) => {
                 console.error("Error getting settings:", error);
