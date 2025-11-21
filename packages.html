@@ -488,17 +488,18 @@
     <!-- Bootstrap 5.3.3 JS Bundle -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 
-    <!-- Paystack JS -->
-    <script src="https://js.paystack.co/v1/inline.js"></script>
-
     <!-- Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+
+    <!-- App Logic -->
+    <script src="firebase-init.js"></script>
+    <script src="app.js"></script>
 
     <!-- Internal JS -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            const paystackPublicKey = 'pk_live_79750a67874f70cbf33588ab9e9aa2764f5e6102';
             const userEmail = sessionStorage.getItem('userEmail');
 
             if (!userEmail) {
@@ -510,76 +511,12 @@
             const sixMonthBtn = document.getElementById('plan-6months');
             const oneYearBtn = document.getElementById('plan-1year');
             
-            let whatsappNumber = '';
-
             sixMonthBtn.addEventListener('click', () => {
-                payWithPaystack(1000000, userEmail, '6-Month Plan');
+                window.location.href = 'payment.html?plan=6months';
             });
 
             oneYearBtn.addEventListener('click', () => {
-                payWithPaystack(1500000, userEmail, '1-Year Plan');
-            });
-
-            function payWithPaystack(amount, email, planName) {
-                if (!whatsappNumber) {
-                    alert('The payment system is currently unavailable. Please contact support.');
-                    return;
-                }
-
-                const handler = PaystackPop.setup({
-                    key: paystackPublicKey,
-                    email: email,
-                    amount: amount, // in kobo
-                    currency: 'NGN',
-                    ref: 'animo-' + Date.now(),
-                    metadata: {
-                        plan: planName,
-                    },
-                    callback: function(response) {
-                        const message = `Hello, I have successfully paid for the Animo ${planName}.\n\nMy transaction reference is: ${response.reference}\nMy email is: ${email}\n\nPlease complete my registration.`;
-                        
-                        const waRedirectLink = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
-                        window.location.href = waRedirectLink;
-                    },
-                    onClose: function() {
-                        alert('Payment was cancelled.');
-                    }
-                });
-                handler.openIframe();
-            }
-
-            // --- Firebase Dynamic Content ---
-            const firebaseConfig = {
-                apiKey: "AIzaSyDogB8ViVjajhdYDbdLa8ggky4lalgwgkE",
-                authDomain: "animo-website.firebaseapp.com",
-                databaseURL: "https://animo-website-default-rtdb.firebaseio.com",
-                projectId: "animo-website",
-                storageBucket: "animo-website.firebasestorage.app",
-                messagingSenderId: "249453136869",
-                appId: "1:249453136869:web:d7009c4b5a261f13b73d0c"
-            };
-
-            firebase.initializeApp(firebaseConfig);
-            const db = firebase.firestore();
-            const settingsRef = db.collection('settings').doc('payment');
-
-            settingsRef.get().then((doc) => {
-                if (doc.exists) {
-                    const data = doc.data();
-                    whatsappNumber = data.whatsappNumber;
-
-                    if (whatsappNumber) {
-                        const baseWhatsappUrl = `https://wa.me/${whatsappNumber}`;
-                        const prefilledLink = `${baseWhatsappUrl}?text=${encodeURIComponent('Hello, I have a question about making a payment for Animo.')}`;
-                        document.querySelectorAll('.dynamic-wa-link').forEach(link => {
-                            link.href = prefilledLink;
-                        });
-                    }
-                } else {
-                    console.error("Payment settings document not found in Firebase.");
-                }
-            }).catch((error) => {
-                console.error("Error getting settings:", error);
+                window.location.href = 'payment.html?plan=1year';
             });
         });
     </script>

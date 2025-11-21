@@ -1013,6 +1013,11 @@
     <!-- Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+
+    <!-- App Logic -->
+    <script src="firebase-init.js"></script>
+    <script src="app.js"></script>
 
     <!-- Internal JS -->
     <script>
@@ -1038,37 +1043,6 @@
 
             window.addEventListener('scroll', handleScroll);
             handleScroll();
-
-
-            // --- Firebase Dynamic Content ---
-            // IMPORTANT: Replace with your Firebase project's configuration
-           const firebaseConfig = {
-    apiKey: "AIzaSyDogB8ViVjajhdYDbdLa8ggky4lalgwgkE",
-    authDomain: "animo-website.firebaseapp.com",
-    databaseURL: "https://animo-website-default-rtdb.firebaseio.com",
-    projectId: "animo-website",
-    storageBucket: "animo-website.firebasestorage.app",
-    messagingSenderId: "249453136869",
-    appId: "1:249453136869:web:d7009c4b5a261f13b73d0c"
-  };
-
-            firebase.initializeApp(firebaseConfig);
-            const db = firebase.firestore();
-            const settingsRef = db.collection('settings').doc('payment');
-
-            settingsRef.get().then((doc) => {
-                if (doc.exists) {
-                    const whatsappNumber = doc.data().whatsappNumber;
-                    if (whatsappNumber) {
-                        const waLink = `https://wa.me/${whatsappNumber}?text=Hello,+I+want+to+pay+for+coupon+code+to+complete+my+Animo+Registration`;
-                        document.querySelectorAll('.dynamic-wa-link').forEach(link => {
-                            link.href = waLink;
-                        });
-                    }
-                }
-            }).catch((error) => {
-                console.error("Error getting settings:", error);
-            });
         });
     </script>
 </body>

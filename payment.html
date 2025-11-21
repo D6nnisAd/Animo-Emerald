@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -313,6 +312,11 @@
     <!-- Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+
+    <!-- App Logic -->
+    <script src="firebase-init.js"></script>
+    <script src="app.js"></script>
 
     <!-- Internal JS -->
     <script>
@@ -334,46 +338,6 @@
                 document.getElementById('package-name').textContent = 'N/A';
                 document.getElementById('package-amount').textContent = 'N/A';
             }
-
-            // --- Firebase Dynamic Content ---
-            // IMPORTANT: Replace with your Firebase project's configuration
-           const firebaseConfig = {
-    apiKey: "AIzaSyDogB8ViVjajhdYDbdLa8ggky4lalgwgkE",
-    authDomain: "animo-website.firebaseapp.com",
-    databaseURL: "https://animo-website-default-rtdb.firebaseio.com",
-    projectId: "animo-website",
-    storageBucket: "animo-website.firebasestorage.app",
-    messagingSenderId: "249453136869",
-    appId: "1:249453136869:web:d7009c4b5a261f13b73d0c"
-  };
-
-            firebase.initializeApp(firebaseConfig);
-            const db = firebase.firestore();
-            const settingsRef = db.collection('settings').doc('payment');
-
-            settingsRef.get().then((doc) => {
-                if (doc.exists) {
-                    const data = doc.data();
-                    
-                    // Populate bank details
-                    document.getElementById('account-number').textContent = data.accountNumber || 'N/A';
-                    document.getElementById('bank-name').textContent = data.bankName || 'N/A';
-                    document.getElementById('account-name').textContent = data.accountName || 'N/A';
-
-                    // Update WhatsApp links
-                    if (data.whatsappNumber) {
-                        const waLink = `https://wa.me/${data.whatsappNumber}?text=Hello,+I+want+to+pay+for+coupon+code+to+complete+my+Animo+Registration`;
-                        document.querySelectorAll('.dynamic-wa-link').forEach(link => {
-                            link.href = waLink;
-                        });
-                    }
-                } else {
-                    console.log("No settings document found in Firebase.");
-                }
-            }).catch((error) => {
-                console.error("Error getting settings:", error);
-            });
-
 
             // --- Page Interactions ---
             const copyBtn = document.getElementById('copy-btn');
