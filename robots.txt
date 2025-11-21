@@ -1,17 +1,23 @@
 User-agent: *
 Disallow: /admin.html
 Disallow: /payment.html
+Disallow: /app.js
+Disallow: /firebase-init.js
 
 User-agent: AdsBot-Google
 # Allow the ad crawler to see the public user journey
 Allow: /
-# But still protect sensitive pages
+# But still protect sensitive pages and logic
 Disallow: /admin.html
 Disallow: /payment.html
+Disallow: /app.js
+Disallow: /firebase-init.js
 
 User-agent: Googlebot
 Allow: /
 Disallow: /admin.html
 Disallow: /payment.html
+Disallow: /app.js
+Disallow: /firebase-init.js
 
 Sitemap: https://animoapp.net.ng/sitemap.xml
