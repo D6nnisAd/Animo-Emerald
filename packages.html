@@ -173,11 +173,18 @@
             transition: transform 0.3s ease, box-shadow 0.3s ease;
             position: relative;
             overflow: hidden; /* For badge */
+            cursor: pointer; /* Indicates clickable */
         }
         
         .package-card:hover {
             transform: translateY(-10px);
             box-shadow: 0 15px 50px rgba(0,0,0,0.4);
+        }
+
+        /* Highlight button when hovering card */
+        .package-card:hover .btn-select-plan {
+            background-color: transparent;
+            color: var(--primary-color);
         }
         
         .package-card.popular {
@@ -408,7 +415,7 @@
                 <div class="row justify-content-center gy-4">
                     <!-- 6-Month Plan -->
                     <div class="col-lg-5 col-md-8">
-                        <div class="package-card h-100">
+                        <div class="package-card h-100" id="card-6months">
                             <h3>6-Month Plan</h3>
                             <div class="price"><sup>₦</sup>10,000</div>
                             <p>Full access for 6 months.</p>
@@ -419,12 +426,12 @@
                                 <li><i class="fas fa-check-circle" aria-hidden="true"></i> Eligibility for Real Estate Opportunities</li>
                                 <li><i class="fas fa-check-circle" aria-hidden="true"></i> Access to Earning Opportunities</li>
                             </ul>
-                            <button id="plan-6months" class="btn btn-select-plan">Select Plan</button>
+                            <button class="btn btn-select-plan">Select Plan</button>
                         </div>
                     </div>
                     <!-- 1-Year Plan -->
                     <div class="col-lg-5 col-md-8">
-                        <div class="package-card popular h-100">
+                        <div class="package-card popular h-100" id="card-1year">
                             <h3>1-Year Plan</h3>
                             <div class="price"><sup>₦</sup>15,000</div>
                             <p>Full access for 12 months.</p>
@@ -435,7 +442,7 @@
                                 <li><i class="fas fa-check-circle" aria-hidden="true"></i> Eligibility for Real Estate Opportunities</li>
                                 <li><i class="fas fa-check-circle" aria-hidden="true"></i> Access to Earning Opportunities</li>
                             </ul>
-                            <button id="plan-1year" class="btn btn-select-plan">Select Plan</button>
+                            <button class="btn btn-select-plan">Select Plan</button>
                         </div>
                     </div>
                 </div>
@@ -508,14 +515,14 @@
                 return;
             }
 
-            const sixMonthBtn = document.getElementById('plan-6months');
-            const oneYearBtn = document.getElementById('plan-1year');
+            const sixMonthCard = document.getElementById('card-6months');
+            const oneYearCard = document.getElementById('card-1year');
             
-            sixMonthBtn.addEventListener('click', () => {
+            sixMonthCard.addEventListener('click', () => {
                 window.location.href = 'payment.html?plan=6months';
             });
 
-            oneYearBtn.addEventListener('click', () => {
+            oneYearCard.addEventListener('click', () => {
                 window.location.href = 'payment.html?plan=1year';
             });
         });
